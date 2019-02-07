@@ -1,4 +1,4 @@
-package com.kweisa.primary;
+package com.kweisa.controller;
 
 import javax.bluetooth.DiscoveryAgent;
 import javax.bluetooth.LocalDevice;
@@ -43,7 +43,7 @@ public class Controller {
             this.streamConnection = streamConnection;
         }
 
-        public void send(byte[] data) throws IOException {
+        void send(byte[] data) throws IOException {
             String message = Base64.getEncoder().encodeToString(data);
 
             bufferedWriter.write(message + "\n");
@@ -52,7 +52,7 @@ public class Controller {
             System.out.printf("[>] %s\n", message);
         }
 
-        public byte[] receive() throws IOException {
+        byte[] receive() throws IOException {
             String message = bufferedReader.readLine();
             System.out.printf("[<] %s\n", message);
 
