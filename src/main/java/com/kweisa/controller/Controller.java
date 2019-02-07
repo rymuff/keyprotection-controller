@@ -52,6 +52,12 @@ public class Controller {
             System.out.printf("[>] %s\n", message);
         }
 
+        void send(int data) throws IOException {
+            bufferedWriter.write(data);
+
+            System.out.printf("[>] INT:%d\n", data);
+        }
+
         byte[] receive() throws IOException {
             String message = bufferedReader.readLine();
             System.out.printf("[<] %s\n", message);
@@ -86,7 +92,8 @@ public class Controller {
                 signature.initVerify(certificate.getPublicKey());
                 signature.update(nonce);
 
-                System.out.println("[*] Verify result: " + signature.verify(sign));
+                // Send result
+                send(signature.verify(sign) ? 0 : 1);
 
                 close();
             } catch (IOException | CertificateException | NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
