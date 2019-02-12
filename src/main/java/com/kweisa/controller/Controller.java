@@ -18,19 +18,21 @@ public class Controller {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         LocalDevice.getLocalDevice().setDiscoverable(DiscoveryAgent.GIAC);
+        System.out.println("Bluetooth Address: " + LocalDevice.getLocalDevice().getBluetoothAddress());
         StreamConnectionNotifier streamConnectionNotifier = (StreamConnectionNotifier) Connector.open(SERVER_URL);
 
         int count = 0;
         ServerThread serverThread = null;
 
-        while (count < 5) {
+        while (count < 100) {
             StreamConnection streamConnection = streamConnectionNotifier.acceptAndOpen();
+            System.out.println("Connected");
             serverThread = new ServerThread(streamConnection);
             serverThread.start();
             System.out.println(++count);
         }
 
-        serverThread.wait();
+        serverThread.join();
         streamConnectionNotifier.close();
     }
 
